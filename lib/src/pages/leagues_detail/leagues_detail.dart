@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onlygoal/src/controllers/leagues_detail.dart';
+import 'package:onlygoal/src/pages/leagues_detail/widgets/build_teams.dart';
 import 'package:onlygoal/src/pages/leagues_detail/widgets/build_upcoming_matches.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,7 @@ class _LeaguesDetailState extends State<LeaguesDetail> {
         Provider.of<LeaguesDetailController>(context, listen: false);
     leaguesDetailController.getLeagueResult(widget.leagueTitle);
     leaguesDetailController.getUpcomingMatches(widget.leagueTitle);
+    leaguesDetailController.getTeams(widget.leagueTitle);
     super.initState();
   }
 
@@ -54,7 +56,7 @@ class _LeaguesDetailState extends State<LeaguesDetail> {
         body: const TabBarView(
           children: [
             BuildResults(),
-            BuildResults(),
+            BuildTeams(),
             BuildUpcomingMatches(),
             BuildResults()
           ],

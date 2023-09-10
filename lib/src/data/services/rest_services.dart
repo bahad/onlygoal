@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:onlygoal/src/data/model/leagues_model.dart';
 import 'package:onlygoal/src/data/model/percentage_model.dart';
+import 'package:onlygoal/src/data/model/teams_model.dart';
 import '../model/upcoming_matches_model.dart';
 
 abstract class IRestServices {
   IRestServices();
   Future getLeagues();
   Future getLeaguesResult(String leagueName);
+  Future getTeams(String leagueName);
   Future getUpcomingMatches(String leagueName);
   Future getPercentage(String homeTeam, String awayTeam);
 }
@@ -84,6 +86,23 @@ class RestServices implements IRestServices {
       percentageModel = PercentageModel.fromJson(decodedJson);
       debugPrint(percentageModel.toString());
       return percentageModel;
+    } catch (e) {
+      debugPrint(e.toString());
+      return 0;
+    }
+  }
+
+  @override
+  Future getTeams(String leagueName) async {
+    TeamsModel teamsModel;
+    final queryParameters = {
+      'leaguename': leagueName,
+    };
+    try {
+      final response = await get(Uri.https(apiurl, "teams", queryParameters));
+      final decodedJson = json.decode(response.body);
+      teamsModel = TeamsModel.fromJson(decodedJson);
+      return teamsModel;
     } catch (e) {
       debugPrint(e.toString());
       return 0;
